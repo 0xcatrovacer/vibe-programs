@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
 
+#[account]
 pub struct Vibe {
 
     pub version: u32,
@@ -31,3 +32,27 @@ pub struct VibeContent {
     //Vibe Paragraph
     pub vibe_p: String,
 }
+
+impl Vibe {
+    pub const LEN: usize = DISCRIMINATOR_LENGTH
+                + VERSION
+                + CONTENT_TITLE
+                + CONTENT_PARA
+                + AUTHOR
+                + LIKES
+                + ALLCOMMENTS
+                + COMMENTS
+                + TIMESTAMPS;
+}
+
+const DISCRIMINATOR_LENGTH: usize = 8;
+const VERSION: usize = 4;
+const CONTENT_TITLE: usize = 50 * 4;
+const CONTENT_PARA: usize = 300 * 4;
+const AUTHOR: usize = 32;
+const LIKES: usize = 4;
+const ALLCOMMENTS: usize = 1;
+const COMMENTS: usize = 4;
+const TIMESTAMPS: usize = 8;
+
+
