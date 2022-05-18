@@ -16,6 +16,15 @@ pub struct Comment {
 }
 
 impl Comment {
+
+    // Length of comment
+    pub const LEN: usize = DISCRIMINATOR_LENGTH +
+                VIBE_LENGTH +
+                CONTENT_LENGTH +
+                COMMENTOR_LENGTH +
+                BUMP_LENGTH;
+
+    // Add a Comment to a Vibe
     pub fn add_comment(
         &mut self, 
         vibe: Pubkey, 
@@ -29,3 +38,9 @@ impl Comment {
         self.bump = bump;
     }
 }
+
+const DISCRIMINATOR_LENGTH: usize = 8;
+const VIBE_LENGTH: usize = 32;
+const CONTENT_LENGTH: usize = 150 * 4;
+const COMMENTOR_LENGTH: usize = 32;
+const BUMP_LENGTH: usize = 1;
