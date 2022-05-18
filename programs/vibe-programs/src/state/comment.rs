@@ -15,3 +15,17 @@ pub struct Comment {
     pub bump: u8
 }
 
+impl Comment {
+    pub fn add_comment(
+        &mut self, 
+        vibe: Pubkey, 
+        content: String, 
+        commentor: Pubkey, 
+        bump: u8
+    ) {
+        self.vibe = vibe;
+        self.content = content;
+        self.commentor = commentor;
+        self.bump = bump;
+    }
+}
