@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 
-pub mod state;
-pub mod instructions;
+mod state;
+mod instructions;
 
 use state::*;
 use instructions::*;
@@ -21,7 +21,12 @@ pub mod vibe_programs {
         instructions::init_vibe::handler(ctx, vibe_content, allowed_comments)
     }
 
+    // Add a Comment
+    pub fn add_comment(
+        ctx: Context<AddComment>,
+        content: String,
+        bump: u8,
+    ) -> Result<()> {
+        instructions::add_comment::handler(ctx, content, bump)
+    }
 }
-
-#[derive(Accounts)]
-pub struct Initialize {}
