@@ -29,4 +29,9 @@ pub mod vibe_programs {
     ) -> Result<()> {
         instructions::add_comment::handler(ctx, content, bump)
     }
+
+    // Remove a Comment
+    pub fn remove_comment(ctx: Context<RemoveComment>) -> Result<()> {
+        instructions::remove_comment::handler(ctx)
+    }
 }

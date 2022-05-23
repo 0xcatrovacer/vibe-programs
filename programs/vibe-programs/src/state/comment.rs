@@ -15,6 +15,12 @@ pub struct Comment {
     pub bump: u8
 }
 
+const DISCRIMINATOR_LENGTH: usize = 8;
+const VIBE_LENGTH: usize = 32;
+const CONTENT_LENGTH: usize = 150 * 4;
+const COMMENTOR_LENGTH: usize = 32;
+const BUMP_LENGTH: usize = 1;
+
 impl Comment {
 
     // Length of comment
@@ -38,9 +44,3 @@ impl Comment {
         self.bump = bump;
     }
 }
-
-const DISCRIMINATOR_LENGTH: usize = 8;
-const VIBE_LENGTH: usize = 32;
-const CONTENT_LENGTH: usize = 150 * 4;
-const COMMENTOR_LENGTH: usize = 32;
-const BUMP_LENGTH: usize = 1;
