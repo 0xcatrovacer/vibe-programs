@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 
 mod state;
 mod instructions;
+mod errors;
 
 use state::*;
 use instructions::*;
@@ -15,10 +16,11 @@ pub mod vibe_programs {
     // Initialize a Vibe
     pub fn init_vibe(
         ctx: Context<InitializeVibe>, 
-        vibe_content: Vec<VibeContent>, 
+        vibe_title: String, 
+        vibe_content: String, 
         allowed_comments: bool
     ) -> Result<()> {
-        instructions::init_vibe::handler(ctx, vibe_content, allowed_comments)
+        instructions::init_vibe::handler(ctx, vibe_title, vibe_content, allowed_comments)
     }
 
     // Add a Comment
