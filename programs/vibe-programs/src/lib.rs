@@ -36,4 +36,9 @@ pub mod vibe_programs {
     pub fn remove_comment(ctx: Context<RemoveComment>) -> Result<()> {
         instructions::remove_comment::handler(ctx)
     }
+
+    // Add a Like
+    pub fn add_like(ctx: Context<AddLike>) -> Result<()> {
+        instructions::add_like::handler(ctx)
+    }
 }
