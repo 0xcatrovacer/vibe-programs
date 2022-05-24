@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
 use crate::state::*;
+use crate::errors::ErrorCode;
 
 #[derive(Accounts)]
 pub struct InitializeVibe<'info> {
@@ -18,13 +19,22 @@ pub struct InitializeVibe<'info> {
 // Initialize an account that will store a Vibe
 pub fn handler(
     ctx: Context<InitializeVibe>, 
-    vibe_content: Vec<VibeContent>, 
+    vibe_title: String, 
+    vibe_content: String, 
     allowed_comments: bool
     ) -> Result<()> {
 
     let vibe = &mut ctx.accounts.vibe;
     let author = &mut ctx.accounts.author;
     let clock = &mut ctx.accounts.clock;
+
+    if vibe_title.chars().count() > 50 {
+        return Err(ErrorCode::TopicTooLong.into())
+    }
+
+    if vibe_content.chars().count() > 300 {
+        return Err(ErrorCode::ContentTooLong.into())
+    }
 
     vibe.author = *author.key;
     vibe.vibe_content = vibe_content;
