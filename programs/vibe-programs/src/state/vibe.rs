@@ -5,8 +5,11 @@ pub struct Vibe {
 
     pub version: u32,
 
+    // Title of the Vibe
+    pub vibe_title: String,
+
     // Content of the Vibe
-    pub vibe_content: Vec<VibeContent>,
+    pub vibe_content: String,
 
     // Author of the Vibe
     pub author: Pubkey,
@@ -22,15 +25,6 @@ pub struct Vibe {
 
     // Timestamp when vibe was created
     pub timestamp: i64,
-}
-
-#[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize)]
-pub struct VibeContent {
-    // Vibe Title
-    pub vibe_t: String,
-
-    //Vibe Paragraph
-    pub vibe_p: String,
 }
 
 impl Vibe {
