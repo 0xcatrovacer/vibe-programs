@@ -40,4 +40,9 @@ pub mod vibe_programs {
     pub fn add_like(ctx: Context<AddLike>) -> Result<()> {
         instructions::add_like::handler(ctx)
     }
+
+    // Remove a Like
+    pub fn remove_like(ctx: Context<RemoveLike>) -> Result<()> {
+        instructions::remove_like::handler(ctx)
+    }
 }
