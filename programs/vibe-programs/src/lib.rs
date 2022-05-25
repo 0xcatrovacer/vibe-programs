@@ -62,4 +62,9 @@ pub mod vibe_programs {
     pub fn follow(ctx: Context<FollowUser>) -> Result<()> {
         instructions::follow_user::handler(ctx)
     }
+
+    // Unfollow an User
+    pub fn unfollow(ctx: Context<RemoveFollow>) -> Result<()> {
+        instructions::remove_follow::handler(ctx)
+    }
 }
