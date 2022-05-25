@@ -52,4 +52,9 @@ pub mod vibe_programs {
     pub fn remove_like(ctx: Context<RemoveLike>) -> Result<()> {
         instructions::remove_like::handler(ctx)
     }
+
+    // Follow an User
+    pub fn follow(ctx: Context<FollowUser>) -> Result<()> {
+        instructions::follow_user::handler(ctx)
+    }
 }
