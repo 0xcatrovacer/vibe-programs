@@ -8,4 +8,6 @@ pub enum ErrorCode {
     ContentTooLong,
     #[msg("The provided comment should be 150 characters long maximum.")]
     CommentTooLong,
+    #[msg("The provided nick should be 20 characters long maximum.")]
+    NickTooLong,
 }
