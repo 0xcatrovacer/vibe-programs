@@ -27,9 +27,8 @@ pub mod vibe_programs {
     pub fn add_comment(
         ctx: Context<AddComment>,
         content: String,
-        bump: u8,
     ) -> Result<()> {
-        instructions::add_comment::handler(ctx, content, bump)
+        instructions::add_comment::handler(ctx, content)
     }
 
     // Remove a Comment

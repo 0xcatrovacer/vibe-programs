@@ -25,14 +25,15 @@ pub struct AddComment<'info> {
 pub fn handler(
     ctx: Context<AddComment>,
     content: String,
-    bump: u8
 ) -> Result<()> {
     let vibe = &mut ctx.accounts.vibe;
     let comment_account = &mut ctx.accounts.comment;
 
-    let commentor = ctx.accounts.commentor.key;
+    let commentor = &mut ctx.accounts.commentor;
 
-    comment_account.add_comment(vibe.key(), content, *commentor, bump);
+    let bump = *ctx.bumps.get("comment").unwrap();
+
+    comment_account.add_comment(vibe.key(), content, *commentor.key, bump);
 
     vibe.comments += 1;
 
