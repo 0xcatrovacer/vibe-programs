@@ -6,7 +6,7 @@ mod errors;
 
 use instructions::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("2Ck2aD8rQy8WdG9QhhUBkoy9TtvzUzHmWMybn3mN6Dqf");
 
 #[program]
 pub mod vibe_programs {
@@ -28,6 +28,11 @@ pub mod vibe_programs {
         allowed_comments: bool
     ) -> Result<()> {
         instructions::init_vibe::handler(ctx, vibe_title, vibe_content, allowed_comments)
+    }
+
+    // Delete a Vibe
+    pub fn remove_vibe(ctx: Context<RemoveVibe>) -> Result<()> {
+        instructions::remove_vibe::handler(ctx)
     }
 
     // Add a Comment
@@ -56,5 +61,10 @@ pub mod vibe_programs {
     // Follow an User
     pub fn follow(ctx: Context<FollowUser>) -> Result<()> {
         instructions::follow_user::handler(ctx)
+    }
+
+    // Unfollow an User
+    pub fn unfollow(ctx: Context<RemoveFollow>) -> Result<()> {
+        instructions::remove_follow::handler(ctx)
     }
 }
