@@ -20,6 +20,13 @@ pub mod vibe_programs {
         instructions::init_user::handler(ctx, nick)
     }
 
+    pub fn update_nickname(
+        ctx: Context<UpdateNick>,
+        nick: String
+    ) -> Result<()> {
+        instructions::update_user_nick::handler(ctx, nick)
+    }
+
     // Initialize a Vibe
     pub fn init_vibe(
         ctx: Context<InitializeVibe>, 
