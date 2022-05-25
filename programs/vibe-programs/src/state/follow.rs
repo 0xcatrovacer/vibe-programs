@@ -6,8 +6,8 @@ pub struct Follow {
     // The user being followed
     pub followed: Pubkey,
 
-    // The user who is following. Also, the Signer of the Instruction
-    pub following: Pubkey,
+    // The user who is the follower. Also, the Signer of the Instruction
+    pub follower: Pubkey,
 
     // Bump
     pub bump: u8,

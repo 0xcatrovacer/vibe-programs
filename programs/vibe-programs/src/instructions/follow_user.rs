@@ -19,12 +19,18 @@ pub struct FollowUser<'info> {
     pub system_program: Program<'info, System>,
 }
 
-// pub fn handler(ctx: Context<FollowUser>) -> Result<()> {
+pub fn handler(ctx: Context<FollowUser>) -> Result<()> {
 
-//     let follow = &mut ctx.accounts.follow;
-//     let follower = &mut ctx.accounts.follower;
-//     let followed = &mut ctx.accounts.followed;
+    let follow = &mut ctx.accounts.follow;
+    let follower = &mut ctx.accounts.follower;
+    let followed = &mut ctx.accounts.followed;
 
-//     Ok(())
+    let bump = *ctx.bumps.get("follow").unwrap();
 
-// }
+    follow.followed = *followed.key;
+    follow.follower = *follower.key;
+    follow.bump = bump;
+
+    Ok(())
+
+}
