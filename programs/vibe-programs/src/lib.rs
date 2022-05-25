@@ -4,7 +4,6 @@ mod state;
 mod instructions;
 mod errors;
 
-use state::*;
 use instructions::*;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
@@ -12,6 +11,14 @@ declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 #[program]
 pub mod vibe_programs {
     use super::*;
+
+    // Create an User
+    pub fn init_user(
+        ctx: Context<InitializeUser>,
+        nick: String
+    ) -> Result<()> {
+        instructions::init_user::handler(ctx, nick)
+    }
 
     // Initialize a Vibe
     pub fn init_vibe(
@@ -27,9 +34,8 @@ pub mod vibe_programs {
     pub fn add_comment(
         ctx: Context<AddComment>,
         content: String,
-        bump: u8,
     ) -> Result<()> {
-        instructions::add_comment::handler(ctx, content, bump)
+        instructions::add_comment::handler(ctx, content)
     }
 
     // Remove a Comment
@@ -40,5 +46,15 @@ pub mod vibe_programs {
     // Add a Like
     pub fn add_like(ctx: Context<AddLike>) -> Result<()> {
         instructions::add_like::handler(ctx)
+    }
+
+    // Remove a Like
+    pub fn remove_like(ctx: Context<RemoveLike>) -> Result<()> {
+        instructions::remove_like::handler(ctx)
+    }
+
+    // Follow an User
+    pub fn follow(ctx: Context<FollowUser>) -> Result<()> {
+        instructions::follow_user::handler(ctx)
     }
 }
