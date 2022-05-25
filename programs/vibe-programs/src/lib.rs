@@ -4,7 +4,6 @@ mod state;
 mod instructions;
 mod errors;
 
-use state::*;
 use instructions::*;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
@@ -12,6 +11,14 @@ declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 #[program]
 pub mod vibe_programs {
     use super::*;
+
+    // Create an User
+    pub fn init_user(
+        ctx: Context<InitializeUser>,
+        nick: String
+    ) -> Result<()> {
+        instructions::init_user::handler(ctx, nick)
+    }
 
     // Initialize a Vibe
     pub fn init_vibe(
