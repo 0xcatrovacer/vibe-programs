@@ -30,6 +30,11 @@ pub mod vibe_programs {
         instructions::init_vibe::handler(ctx, vibe_title, vibe_content, allowed_comments)
     }
 
+    // Delete a Vibe
+    pub fn remove_vibe(ctx: Context<RemoveVibe>) -> Result<()> {
+        instructions::remove_vibe::handler(ctx)
+    }
+
     // Add a Comment
     pub fn add_comment(
         ctx: Context<AddComment>,
