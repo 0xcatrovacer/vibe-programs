@@ -16,7 +16,7 @@ pub struct Follow {
 const DISCRIMINATOR_LENGTH: usize = 8;
 const FOLLOWER_USER_PUBLIC_KEY_LENGTH: usize = 32;
 const FOLLOWED_USER_PUBLIC_KEY_LENGTH: usize = 32;
-const FOLLOW_BUMP: usize = 2;
+const FOLLOW_BUMP: usize = 1;
 
 impl Follow {
 
