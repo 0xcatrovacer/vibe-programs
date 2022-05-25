@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
 use crate::state::*;
+use crate::errors::ErrorCode;
 
 #[derive(Accounts)]
 pub struct InitializeUser<'info> {
@@ -18,6 +19,10 @@ pub struct InitializeUser<'info> {
 }
 
 pub fn handler (ctx: Context<InitializeUser>, nick: String) -> Result<()> {
+
+    if nick.chars().count() > 20 {
+        return Err(ErrorCode::NickTooLong.into())
+    }
 
     let user = &mut ctx.accounts.user;
     let author = &mut ctx.accounts.author;

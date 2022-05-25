@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
 use crate::state::*;
+use crate::errors::ErrorCode;
 
 #[derive(Accounts)]
 pub struct AddComment<'info> {
@@ -26,6 +27,11 @@ pub fn handler(
     ctx: Context<AddComment>,
     content: String,
 ) -> Result<()> {
+
+    if content.chars().count() > 150 {
+        return Err(ErrorCode::CommentTooLong.into())
+    }
+
     let vibe = &mut ctx.accounts.vibe;
     let comment_account = &mut ctx.accounts.comment;
 
