@@ -6,7 +6,7 @@ mod errors;
 
 use instructions::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("2Ck2aD8rQy8WdG9QhhUBkoy9TtvzUzHmWMybn3mN6Dqf");
 
 #[program]
 pub mod vibe_programs {

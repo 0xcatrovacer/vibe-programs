@@ -1,5 +1,8 @@
 [programs.localnet]
-vibe_programs = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+vibe_programs = "2Ck2aD8rQy8WdG9QhhUBkoy9TtvzUzHmWMybn3mN6Dqf"
+
+[programs.devnet]
+vibe_programs = "2Ck2aD8rQy8WdG9QhhUBkoy9TtvzUzHmWMybn3mN6Dqf"
 
 [registry]
 url = "https://anchor.projectserum.com"
