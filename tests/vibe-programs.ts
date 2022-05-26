@@ -134,4 +134,19 @@ describe("vibe-programs", async () => {
         assert.equal(commentedVibe.comments, 1);
         assert.equal(commentorAccount.comments, 1);
     });
+
+    it("can remove a like", async () => {
+        await program.rpc.removeLike({
+            accounts: {
+                like: likePDA,
+                vibe: vibe.publicKey,
+                liker: author.publicKey,
+                user: userPDA,
+            },
+        });
+
+        const unlikedVibe = await program.account.vibe.fetch(vibe.publicKey);
+
+        assert.equal(unlikedVibe.likes, 0);
+    });
 });
