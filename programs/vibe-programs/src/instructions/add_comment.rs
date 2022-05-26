@@ -6,9 +6,7 @@ use crate::errors::ErrorCode;
 #[derive(Accounts)]
 pub struct AddComment<'info> {
     #[account(
-        init, 
-        seeds=[commentor.key().as_ref(), vibe.key().as_ref()], 
-        bump,
+        init,
         payer = commentor, 
         space = Comment::LEN
     )]
@@ -51,9 +49,7 @@ pub fn handler(
 
     let commentor = &mut ctx.accounts.commentor;
 
-    let bump = *ctx.bumps.get("comment").unwrap();
-
-    comment_account.add_comment(vibe.key(), content, *commentor.key, bump);
+    comment_account.add_comment(vibe.key(), content, *commentor.key);
 
     vibe.comments += 1;
     user.comments += 1;
