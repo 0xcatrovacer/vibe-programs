@@ -247,4 +247,35 @@ describe("vibe-programs", async () => {
         assert.equal(followerUser.followers, 0);
         assert.equal(followerUser.followings, 1);
     });
+
+    it("can follow back user", async () => {
+        await program.rpc.follow({
+            accounts: {
+                follow: followPDA2,
+                followed: author.publicKey,
+                follower: newUser.publicKey,
+                followedAccount: userPDA,
+                followerAccount: newUserPDA,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+            signers: [newUser],
+        });
+
+        const newFollowAccount = await program.account.follow.fetch(followPDA2);
+        const newFollowedUser = await program.account.user.fetch(newUserPDA);
+        const newFollowerUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(
+            newFollowAccount.followed.toBase58(),
+            author.publicKey.toBase58()
+        );
+        assert.equal(
+            newFollowAccount.follower.toBase58(),
+            newUser.publicKey.toBase58()
+        );
+        assert.equal(newFollowedUser.followers, 1);
+        assert.equal(newFollowedUser.followings, 1);
+        assert.equal(newFollowerUser.followers, 1);
+        assert.equal(newFollowerUser.followings, 1);
+    });
 });
