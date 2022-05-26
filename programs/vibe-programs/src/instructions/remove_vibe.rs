@@ -11,10 +11,23 @@ pub struct RemoveVibe<'info> {
     )]
     pub vibe: Account<'info, Vibe>,
 
+    #[account(
+        mut,
+        seeds=[b"vibe_user", author.key().as_ref()],
+        bump = user.bump,
+        constraint = user.user_key == *author.key
+    )]
+    pub user: Account<'info, User>,
+
     #[account(mut, signer)]
     pub author: AccountInfo<'info>,
 }
 
-pub fn handler (_ctx: Context<RemoveVibe>) -> Result<()> {
+pub fn handler (ctx: Context<RemoveVibe>) -> Result<()> {
+
+    let user = &mut ctx.accounts.user;
+
+    user.vibes -= 1;
+
     Ok(())
 }

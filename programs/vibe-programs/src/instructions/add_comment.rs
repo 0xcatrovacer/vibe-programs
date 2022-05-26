@@ -20,6 +20,14 @@ pub struct AddComment<'info> {
     #[account(mut, signer)]
     pub commentor: AccountInfo<'info>,
 
+    #[account(
+        mut,
+        seeds=[b"vibe_user", commentor.key().as_ref()],
+        bump = user.bump,
+        constraint = user.user_key == *commentor.key
+    )]
+    pub user: Account<'info, User>,
+
     pub system_program: Program<'info, System>,
 }
 
@@ -34,6 +42,7 @@ pub fn handler(
 
     let vibe = &mut ctx.accounts.vibe;
     let comment_account = &mut ctx.accounts.comment;
+    let user = &mut ctx.accounts.user;
 
     let commentor = &mut ctx.accounts.commentor;
 
@@ -42,6 +51,7 @@ pub fn handler(
     comment_account.add_comment(vibe.key(), content, *commentor.key, bump);
 
     vibe.comments += 1;
+    user.comments += 1;
 
     Ok(())
 }
