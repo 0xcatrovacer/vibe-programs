@@ -15,7 +15,7 @@ pub struct RemoveComment<'info> {
     #[account(mut)]
     pub vibe: Account<'info, Vibe>,
 
-    #[account(signer)]
+    #[account(mut, signer)]
     pub commentor: AccountInfo<'info>,
     
     #[account(
