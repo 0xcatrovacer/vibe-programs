@@ -26,6 +26,26 @@ describe("vibe-programs", async () => {
 
     const comment = anchor.web3.Keypair.generate();
 
+    const newUser = anchor.web3.Keypair.generate();
+
+    const [newUserPDA, _bump3] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+            anchor.utils.bytes.utf8.encode("vibe_user"),
+            newUser.publicKey.toBuffer(),
+        ],
+        program.programId
+    );
+
+    const [followPDA1, _bump4] = await anchor.web3.PublicKey.findProgramAddress(
+        [newUser.publicKey.toBuffer(), author.publicKey.toBuffer()],
+        program.programId
+    );
+
+    const [followPDA2, _bump5] = await anchor.web3.PublicKey.findProgramAddress(
+        [author.publicKey.toBuffer(), newUser.publicKey.toBuffer()],
+        program.programId
+    );
+
     it("can create user account", async () => {
         await program.rpc.initUser("Nickname", {
             accounts: {
@@ -181,5 +201,50 @@ describe("vibe-programs", async () => {
         const removeUser = await program.account.user.fetch(userPDA);
 
         assert.equal(removeUser.vibes, 0);
+    });
+
+    it("can follow another user", async () => {
+        const signature = await program.provider.connection.requestAirdrop(
+            newUser.publicKey,
+            1000000000
+        );
+        await program.provider.connection.confirmTransaction(signature);
+
+        await program.rpc.initUser("New User Nick", {
+            accounts: {
+                user: newUserPDA,
+                author: newUser.publicKey,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+            signers: [newUser],
+        });
+
+        await program.rpc.follow({
+            accounts: {
+                follow: followPDA1,
+                followed: newUser.publicKey,
+                follower: author.publicKey,
+                followedAccount: newUserPDA,
+                followerAccount: userPDA,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+        });
+
+        const followAccount = await program.account.follow.fetch(followPDA1);
+        const followedUser = await program.account.user.fetch(newUserPDA);
+        const followerUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(
+            followAccount.followed.toBase58(),
+            newUser.publicKey.toBase58()
+        );
+        assert.equal(
+            followAccount.follower.toBase58(),
+            author.publicKey.toBase58()
+        );
+        assert.equal(followedUser.followers, 1);
+        assert.equal(followedUser.followings, 0);
+        assert.equal(followerUser.followers, 0);
+        assert.equal(followerUser.followings, 1);
     });
 });
