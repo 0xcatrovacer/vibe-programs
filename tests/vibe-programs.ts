@@ -18,4 +18,26 @@ describe("vibe-programs", async () => {
         ],
         program.programId
     );
+
+    it("can create user account", async () => {
+        await program.rpc.initUser("Nickname", {
+            accounts: {
+                user: userPDA,
+                author: author.publicKey,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+        });
+
+        const createdUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(
+            createdUser.userKey.toBase58(),
+            author.publicKey.toBase58()
+        );
+        assert.equal(createdUser.nick, "Nickname");
+        assert.equal(createdUser.vibes, 0);
+        assert.equal(createdUser.comments, 0);
+        assert.equal(createdUser.followers, 0);
+        assert.equal(createdUser.followings, 0);
+    });
 });
