@@ -118,20 +118,20 @@ describe("vibe-programs", async () => {
             },
             signers: [comment],
         });
+
+        const createdComment = await program.account.comment.fetch(
+            comment.publicKey
+        );
+        const commentedVibe = await program.account.vibe.fetch(vibe.publicKey);
+        const commentorAccount = await program.account.user.fetch(userPDA);
+
+        assert.equal(createdComment.vibe.toBase58(), vibe.publicKey.toBase58());
+        assert.equal(
+            createdComment.commentor.toBase58(),
+            author.publicKey.toBase58()
+        );
+        assert.equal(createdComment.content, "New Comment");
+        assert.equal(commentedVibe.comments, 1);
+        assert.equal(commentorAccount.comments, 1);
     });
-
-    const createdComment = await program.account.comment.fetch(
-        comment.publicKey
-    );
-    const commentedVibe = await program.account.vibe.fetch(vibe.publicKey);
-    const commentorAccount = await program.account.user.fetch(userPDA);
-
-    assert.equal(createdComment.vibe.toBase58(), vibe.publicKey.toBase58());
-    assert.equal(
-        createdComment.commentor.toBase58(),
-        author.publicKey.toBase58()
-    );
-    assert.equal(createdComment.content, "New Comment");
-    assert.equal(commentedVibe.comments, 1);
-    assert.equal(commentorAccount.comments, 1);
 });
