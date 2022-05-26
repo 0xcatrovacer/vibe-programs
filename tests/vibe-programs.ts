@@ -168,4 +168,18 @@ describe("vibe-programs", async () => {
         assert.equal(uncommentedVibe.comments, 0);
         assert.equal(uncommentor.comments, 0);
     });
+
+    it("can remove a vibe", async () => {
+        await program.rpc.removeVibe({
+            accounts: {
+                vibe: vibe.publicKey,
+                user: userPDA,
+                author: author.publicKey,
+            },
+        });
+
+        const removeUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(removeUser.vibes, 0);
+    });
 });
