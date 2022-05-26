@@ -6,8 +6,8 @@ use crate::state::*;
 pub struct RemoveComment<'info> {
     #[account(
         mut,
-        seeds=[commentor.key().as_ref(), vibe.key().as_ref()],
-        bump = comment.bump,
+        has_one = commentor,
+        has_one = vibe,
         close = commentor
     )]
     pub comment: Account<'info, Comment>,
@@ -15,7 +15,7 @@ pub struct RemoveComment<'info> {
     #[account(mut)]
     pub vibe: Account<'info, Vibe>,
 
-    #[account(signer)]
+    #[account(mut, signer)]
     pub commentor: AccountInfo<'info>,
     
     #[account(

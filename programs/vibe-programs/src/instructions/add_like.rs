@@ -12,10 +12,21 @@ pub struct AddLike<'info> {
         space = Like::LEN
     )]
     pub like: Account<'info, Like>,
+
     #[account(mut)]
     pub vibe: Account<'info, Vibe>,
+
     #[account(mut, signer)]
     pub liker: AccountInfo<'info>,
+    
+    #[account(
+        mut,
+        seeds=[b"vibe_user", liker.key().as_ref()],
+        bump = user.bump,
+        constraint = user.user_key == *liker.key
+    )]
+    pub user: Account<'info, User>,
+
     pub system_program: Program<'info, System>,
 }
 

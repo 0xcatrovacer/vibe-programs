@@ -10,4 +10,6 @@ pub enum ErrorCode {
     CommentTooLong,
     #[msg("The provided nick should be 20 characters long maximum.")]
     NickTooLong,
+    #[msg("Comments are not allowed for this vibe.")]
+    CommentsNotAllowed,
 }
