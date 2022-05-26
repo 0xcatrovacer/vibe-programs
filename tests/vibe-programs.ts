@@ -278,4 +278,24 @@ describe("vibe-programs", async () => {
         assert.equal(newFollowerUser.followers, 1);
         assert.equal(newFollowerUser.followings, 1);
     });
+
+    it("can unfollow an user", async () => {
+        await program.rpc.unfollow({
+            accounts: {
+                follow: followPDA1,
+                followed: newUser.publicKey,
+                follower: author.publicKey,
+                followedAccount: newUserPDA,
+                followerAccount: userPDA,
+            },
+        });
+
+        const unfollowedUser = await program.account.user.fetch(newUserPDA);
+        const unfollowerUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(unfollowedUser.followers, 0);
+        assert.equal(unfollowedUser.followings, 1);
+        assert.equal(unfollowerUser.followers, 1);
+        assert.equal(unfollowerUser.followings, 0);
+    });
 });
