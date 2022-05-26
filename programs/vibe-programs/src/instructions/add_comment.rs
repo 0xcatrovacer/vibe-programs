@@ -39,8 +39,13 @@ pub fn handler(
     if content.chars().count() > 150 {
         return Err(ErrorCode::CommentTooLong.into())
     }
-
+    
     let vibe = &mut ctx.accounts.vibe;
+    
+    if vibe.allowed_comments != true {
+        return Err(ErrorCode::CommentsNotAllowed.into())
+    }
+
     let comment_account = &mut ctx.accounts.comment;
     let user = &mut ctx.accounts.user;
 
