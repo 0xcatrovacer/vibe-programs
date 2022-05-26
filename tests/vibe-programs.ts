@@ -24,6 +24,8 @@ describe("vibe-programs", async () => {
         program.programId
     );
 
+    const comment = anchor.web3.Keypair.generate();
+
     it("can create user account", async () => {
         await program.rpc.initUser("Nickname", {
             accounts: {
@@ -98,10 +100,38 @@ describe("vibe-programs", async () => {
         });
 
         const likeAccount = await program.account.like.fetch(likePDA);
-        const createdVibe = await program.account.vibe.fetch(vibe.publicKey);
+        const likedVibe = await program.account.vibe.fetch(vibe.publicKey);
 
         assert.equal(likeAccount.vibe.toBase58(), vibe.publicKey.toBase58());
         assert.equal(likeAccount.liker.toBase58(), author.publicKey.toBase58());
-        assert.equal(createdVibe.likes, 1);
+        assert.equal(likedVibe.likes, 1);
     });
+
+    it("can add a comment", async () => {
+        await program.rpc.addComment("New Comment", {
+            accounts: {
+                comment: comment.publicKey,
+                vibe: vibe.publicKey,
+                commentor: author.publicKey,
+                user: userPDA,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+            signers: [comment],
+        });
+    });
+
+    const createdComment = await program.account.comment.fetch(
+        comment.publicKey
+    );
+    const commentedVibe = await program.account.vibe.fetch(vibe.publicKey);
+    const commentorAccount = await program.account.user.fetch(userPDA);
+
+    assert.equal(createdComment.vibe.toBase58(), vibe.publicKey.toBase58());
+    assert.equal(
+        createdComment.commentor.toBase58(),
+        author.publicKey.toBase58()
+    );
+    assert.equal(createdComment.content, "New Comment");
+    assert.equal(commentedVibe.comments, 1);
+    assert.equal(commentorAccount.comments, 1);
 });
