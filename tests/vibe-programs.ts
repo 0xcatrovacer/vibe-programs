@@ -53,4 +53,31 @@ describe("vibe-programs", async () => {
 
         assert.equal(updatedUser.nick, "New Nickname");
     });
+
+    it("can create a vibe", async () => {
+        await program.rpc.initVibe("Vibe Title", "Vibe Content", true, {
+            accounts: {
+                vibe: vibe.publicKey,
+                user: userPDA,
+                author: author.publicKey,
+                clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+            signers: [vibe],
+        });
+
+        const createdVibe = await program.account.vibe.fetch(vibe.publicKey);
+
+        assert.equal(createdVibe.vibeTitle, "Vibe Title");
+        assert.equal(createdVibe.vibeContent, "Vibe Content");
+        assert.equal(
+            createdVibe.author.toBase58(),
+            program.provider.wallet.publicKey.toBase58()
+        );
+        assert.equal(createdVibe.version, 0);
+        assert.equal(createdVibe.likes, 0);
+        assert.equal(createdVibe.comments, 0);
+        assert.equal(createdVibe.allowedComments, true);
+        assert.ok(createdVibe.timestamp);
+    });
 });
