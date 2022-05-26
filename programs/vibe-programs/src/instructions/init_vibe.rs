@@ -46,6 +46,7 @@ pub fn handler(
     }
 
     vibe.author = *author.key;
+    vibe.vibe_title = vibe_title;
     vibe.vibe_content = vibe_content;
     vibe.version = 0;
     vibe.likes = 0;
