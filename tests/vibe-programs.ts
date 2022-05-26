@@ -40,4 +40,17 @@ describe("vibe-programs", async () => {
         assert.equal(createdUser.followers, 0);
         assert.equal(createdUser.followings, 0);
     });
+
+    it("can update user nickname", async () => {
+        await program.rpc.updateNickname("New Nickname", {
+            accounts: {
+                user: userPDA,
+                author: author.publicKey,
+            },
+        });
+
+        const updatedUser = await program.account.user.fetch(userPDA);
+
+        assert.equal(updatedUser.nick, "New Nickname");
+    });
 });
