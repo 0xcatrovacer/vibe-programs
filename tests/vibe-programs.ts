@@ -1,17 +1,21 @@
-import * as anchor from '@project-serum/anchor';
-import { Program } from '@project-serum/anchor';
-import { VibePrograms } from '../target/types/vibe_programs';
+import * as anchor from "@project-serum/anchor";
+import { Program } from "@project-serum/anchor";
+import { VibePrograms } from "../target/types/vibe_programs";
+import * as assert from "assert";
 
-describe('vibe-programs', () => {
+describe("vibe-programs", async () => {
+    anchor.setProvider(anchor.Provider.env());
 
-  // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.Provider.env());
+    const program = anchor.workspace.VibePrograms as Program<VibePrograms>;
 
-  const program = anchor.workspace.VibePrograms as Program<VibePrograms>;
+    const author = program.provider.wallet;
+    const vibe = anchor.web3.Keypair.generate();
 
-  it('Is initialized!', async () => {
-    // Add your test here.
-    const tx = await program.rpc.initialize({});
-    console.log("Your transaction signature", tx);
-  });
+    const [userPDA, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+            anchor.utils.bytes.utf8.encode("vibe_user"),
+            author.publicKey.toBuffer(),
+        ],
+        program.programId
+    );
 });
