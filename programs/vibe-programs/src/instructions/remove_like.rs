@@ -8,6 +8,7 @@ pub struct RemoveLike<'info> {
         mut,
         seeds=[liker.key().as_ref(), vibe.key().as_ref()],
         bump = like.bump,
+        has_one = liker,
         close = liker
     )]
     pub like: Account<'info, Like>,
