@@ -8,6 +8,14 @@ pub struct InitializeVibe<'info> {
     #[account(init, payer = author, space = Vibe::LEN)]
     pub vibe: Account<'info, Vibe>,
 
+    #[account(
+        mut,
+        seeds=[b"vibe_user", author.key().as_ref()],
+        bump = user.bump,
+        constraint = user.user_key == *author.key
+    )]
+    pub user: Account<'info, User>,
+
     #[account(mut, signer)]
     pub author: AccountInfo<'info>,
 
@@ -25,6 +33,7 @@ pub fn handler(
     ) -> Result<()> {
 
     let vibe = &mut ctx.accounts.vibe;
+    let user = &mut ctx.accounts.user;
     let author = &mut ctx.accounts.author;
     let clock = &mut ctx.accounts.clock;
 
@@ -43,6 +52,8 @@ pub fn handler(
     vibe.comments = 0;
     vibe.allowed_comments = allowed_comments;
     vibe.timestamp = clock.unix_timestamp;
+
+    user.vibes += 1;
 
     Ok(())
 }

@@ -13,8 +13,10 @@ pub struct InitializeUser<'info> {
         space = User::LEN,
     )]
     pub user: Account<'info, User>,
+
     #[account(mut, signer)]
     pub author: AccountInfo<'info>,
+    
     pub system_program: Program<'info, System>,
 }
 
@@ -31,6 +33,7 @@ pub fn handler (ctx: Context<InitializeUser>, nick: String) -> Result<()> {
 
     user.user_key = *author.key;
     user.nick = nick;
+    user.vibes = 0;
     user.followers = 0;
     user.followings = 0;
     user.bump = bump;
