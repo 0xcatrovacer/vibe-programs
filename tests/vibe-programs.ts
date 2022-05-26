@@ -11,11 +11,16 @@ describe("vibe-programs", async () => {
     const author = program.provider.wallet;
     const vibe = anchor.web3.Keypair.generate();
 
-    const [userPDA, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+    const [userPDA, _bump1] = await anchor.web3.PublicKey.findProgramAddress(
         [
             anchor.utils.bytes.utf8.encode("vibe_user"),
             author.publicKey.toBuffer(),
         ],
+        program.programId
+    );
+
+    const [likePDA, _bump2] = await anchor.web3.PublicKey.findProgramAddress(
+        [author.publicKey.toBuffer(), vibe.publicKey.toBuffer()],
         program.programId
     );
 
@@ -79,5 +84,24 @@ describe("vibe-programs", async () => {
         assert.equal(createdVibe.comments, 0);
         assert.equal(createdVibe.allowedComments, true);
         assert.ok(createdVibe.timestamp);
+    });
+
+    it("can like a vibe", async () => {
+        await program.rpc.addLike({
+            accounts: {
+                like: likePDA,
+                vibe: vibe.publicKey,
+                liker: author.publicKey,
+                user: userPDA,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            },
+        });
+
+        const likeAccount = await program.account.like.fetch(likePDA);
+        const createdVibe = await program.account.vibe.fetch(vibe.publicKey);
+
+        assert.equal(likeAccount.vibe.toBase58(), vibe.publicKey.toBase58());
+        assert.equal(likeAccount.liker.toBase58(), author.publicKey.toBase58());
+        assert.equal(createdVibe.likes, 1);
     });
 });
