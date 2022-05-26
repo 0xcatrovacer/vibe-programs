@@ -12,20 +12,25 @@ pub struct FollowUser<'info> {
         space = Follow::LEN,
     )]
     pub follow: Account<'info, Follow>,
+
     #[account(mut)]
     pub followed: AccountInfo<'info>,
+
     #[account(mut, signer)]
     pub follower: AccountInfo<'info>,
+
     #[account(
         mut,
         constraint = followed_account.user_key == *followed.key
     )]
     pub followed_account: Account<'info, User>,
+
     #[account(
         mut,
         constraint = follower_account.user_key == *follower.key
     )]
     pub follower_account: Account<'info, User>,
+    
     pub system_program: Program<'info, System>,
 }
 
