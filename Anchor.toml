@@ -8,7 +8,7 @@ vibe_programs = "2Ck2aD8rQy8WdG9QhhUBkoy9TtvzUzHmWMybn3mN6Dqf"
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
