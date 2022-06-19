@@ -1,3 +1,3 @@
-# Xypher Vibe
+# Solvibe
 
-Solana Programs for Xypher Social
+Solana Programs for Social Media Dapp
